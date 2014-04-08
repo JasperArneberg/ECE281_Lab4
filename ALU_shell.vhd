@@ -60,6 +60,11 @@ begin
 --  7     : LD
 aluswitch: process (Accumulator, Data, OpSel)
         begin
+			Temp(0) <= not Accumulator(0);
+			Temp(1) <= not Accumulator(1);
+			Temp(2) <= not Accumulator(2);
+			Temp(3) <= not Accumulator(3);
+		  
 		-- enter your if/then/else or case statements here
 			case Opsel is 
 				when "000" => --AND
@@ -68,10 +73,6 @@ aluswitch: process (Accumulator, Data, OpSel)
 					Result(2) <= Data(2) and Accumulator(2);
 					Result(3) <= Data(3) and Accumulator(3);
 				when "001" => --NEG (2's complement)
-					Temp(0) <= not Accumulator(0);
-					Temp(1) <= not Accumulator(1);
-					Temp(2) <= not Accumulator(2);
-					Temp(3) <= not Accumulator(3);
 					Result <= Temp + "0001";
 				when "010" => --NOT (invert)
 					Result(0) <= not Accumulator(0);
@@ -89,19 +90,13 @@ aluswitch: process (Accumulator, Data, OpSel)
 					Result(2) <= Accumulator(2) or Data(2);
 					Result(3) <= Accumulator(3) or Data(3);
 				when "101" => --IN
-					Result(0) <= Data(0);
-					Result(1) <= Data(1);
-					Result(2) <= Data(2);
-					Result(3) <= Data(3);
+					Result <= Data;
 				when "110" => --ADD
 					Result <= Data + Accumulator;
 				when "111" => --LDA
-					Result(0) <= Data(0);
-					Result(1) <= Data(1);
-					Result(2) <= Data(2);
-					Result(3) <= Data(3);
+					Result <= Data;
 				when others =>
-					Result <= "0000";
+					Result <= "XXXX";
 			end case;
 		end process;
 
