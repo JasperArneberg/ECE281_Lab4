@@ -49,7 +49,7 @@ The main problem was that the temporary signal was being assigned its new values
 ##Demonstrations
 | Functionality | Witness | Date | Time |
 | :--: | :--: | :--: | :----: |
-| ALU |  | | |
+| ALU Sim | Dr. Neebel | 8 April 2014 | 1332 |
 | Datapath |  | | |
 
 
