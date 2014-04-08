@@ -2,7 +2,7 @@
 --
 -- Title       : ALU
 -- Design      : ALU
--- Author      : usafa
+-- Author      : C3C Jasper T. Arneberg
 -- Company     : usafa
 --
 -------------------------------------------------------------------------------
@@ -16,6 +16,7 @@
 --
 -- Description : 
 --
+-- Documentation: Original structure of program provided by course
 -------------------------------------------------------------------------------
 
 --{{ Section below this comment is automatically maintained
@@ -59,6 +60,47 @@ begin
 aluswitch: process (Accumulator, Data, OpSel)
         begin
 		-- enter your if/then/else or case statements here
+			case Opsel is 
+				when "000" => --AND
+					Result(0) <= Data(0) and Accumulator(0);
+					Result(1) <= Data(1) and Accumulator(1);
+					Result(2) <= Data(2) and Accumulator(2);
+					Result(3) <= Data(3) and Accumulator(3);
+				when "001" => --NEG (2's complement)
+					Result(0) <= not Accumulator(0);
+					Result(1) <= not Accumulator(1);
+					Result(2) <= not Accumulator(2);
+					Result(3) <= not Accumulator(3);
+					Result <= Result + "0001";
+				when "010" => --NOT (invert)
+					Result(0) <= not Accumulator(0);
+					Result(1) <= not Accumulator(1);
+					Result(2) <= not Accumulator(2);
+					Result(3) <= not Accumulator(3);
+				when "011" => --ROR
+					Result(0) <= Accumulator(1);
+					Result(1) <= Accumulator(2);
+					Result(2) <= Accumulator(3);
+					Result(3) <= Accumulator(0);
+				when "100" => --OR
+					Result(0) <= Accumulator(0) or Data(0);
+					Result(1) <= Accumulator(1) or Data(1);
+					Result(2) <= Accumulator(2) or Data(2);
+					Result(3) <= Accumulator(3) or Data(3);
+				when "101" => --IN
+					Result(0) <= Data(0);
+					Result(1) <= Data(1);
+					Result(2) <= Data(2);
+					Result(3) <= Data(3);
+				when "110" => --ADD
+					Result <= Data + Accumulator;
+				when "111" => --LDA
+					Result(0) <= Data(0);
+					Result(1) <= Data(1);
+					Result(2) <= Data(2);
+					Result(3) <= Data(3);
+				when others =>
+					Result <= "0000";
 		end process;
 
 -- OR, enter your conditional signal statement here
