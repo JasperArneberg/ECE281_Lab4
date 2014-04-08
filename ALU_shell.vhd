@@ -41,6 +41,7 @@ end ALU;
 
 architecture ALU of ALU is	   
 
+signal Temp : STD_LOGIC_VECTOR(3 downto 0);
 
 begin
 	
@@ -67,11 +68,11 @@ aluswitch: process (Accumulator, Data, OpSel)
 					Result(2) <= Data(2) and Accumulator(2);
 					Result(3) <= Data(3) and Accumulator(3);
 				when "001" => --NEG (2's complement)
-					Result(0) <= not Accumulator(0);
-					Result(1) <= not Accumulator(1);
-					Result(2) <= not Accumulator(2);
-					Result(3) <= not Accumulator(3);
-					Result <= Result + "0001";
+					Temp(0) <= not Accumulator(0);
+					Temp(1) <= not Accumulator(1);
+					Temp(2) <= not Accumulator(2);
+					Temp(3) <= not Accumulator(3);
+					Result <= Temp + "0001";
 				when "010" => --NOT (invert)
 					Result(0) <= not Accumulator(0);
 					Result(1) <= not Accumulator(1);
@@ -101,6 +102,7 @@ aluswitch: process (Accumulator, Data, OpSel)
 					Result(3) <= Data(3);
 				when others =>
 					Result <= "0000";
+			end case;
 		end process;
 
 -- OR, enter your conditional signal statement here
