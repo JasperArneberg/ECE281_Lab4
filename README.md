@@ -36,7 +36,7 @@ The main problem was that the temporary signal was being assigned its new values
 		Result <= not Accumulator + "0001";
 ```
 
-####Checking the Testbench
+####Checking the ALU Testbench
 | Opsel | Data | Accumulator | Expected Result |
 | :--: | :--: | :--: | :--: |
 | 000 | 0000 | 0000 | 0000 |
@@ -45,12 +45,36 @@ The main problem was that the temporary signal was being assigned its new values
 | 001 | 0001 | 0011 | 1101 |
 | 001 | 0010 | 0100 | 1100 |
 | 001 | 0010 | 0101 | 1011 |
+In this format, I verified that the ALU worked correctly.
+
+##Datapath Sim
+
+####List of Instructions
+| Start (nsec) | OpCode | Name |
+| 0 | 0 | NOP |
+| 15 | 7 | LDAI |
+| 55 | 3 | ROR |
+| 85 | 4 | OUT |
+| 125 | 0 | NOP |
+| 145 | d | STA |
+| 195 | b | JN |
+| 245 | 3 | ROR |
+| 275 | 4 | OUT | 
+| 305 | 0 | NOP |
+
+
+
+####Analyzing 50 nsec to 100 nsec
+
+
+####Analyzing 225 nsec
+
 
 ##Demonstrations
 | Functionality | Witness | Date | Time |
 | :--: | :--: | :--: | :----: |
 | ALU Sim | Dr. Neebel | 8 April 2014 | 1332 |
-| Datapath |  | | |
+| Datapath | Dr. Neebel | 10 April 2014 | 1425 |
 
 
 ## Documentation
