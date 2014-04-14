@@ -50,7 +50,7 @@ In this format, I verified that the ALU worked correctly.
 ##Datapath Sim
 
 ####List of Instructions
-| Start (nsec) | OpCode | Name |
+| Time (nsec) | OpCode (from IR) | Pneumonic |
 | 0 | 0 | NOP |
 | 15 | 7 | LDAI |
 | 55 | 3 | ROR |
@@ -60,8 +60,15 @@ In this format, I verified that the ALU worked correctly.
 | 195 | b | JN |
 | 245 | 3 | ROR |
 | 275 | 4 | OUT | 
-| 305 | 0 | NOP |
-
+| 315 | 0 | NOP |
+| 335 | d | STA |
+| 385 | b | JN | 
+| 435 | 3 | ROR |
+| 465 | 4 | OUT |
+| 505 | 0 | NOP |
+| 525 | d | STA |
+| 575 | b | JN |
+| 625 | 9 | JMP |
 
 
 ####Analyzing 50 nsec to 100 nsec
