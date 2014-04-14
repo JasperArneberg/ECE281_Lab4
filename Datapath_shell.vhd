@@ -2,7 +2,7 @@
 --
 -- Title       : Datapath
 -- Design      : Datapath
--- Author      : usafa
+-- Author      : C3C Jasper T. Arneberg
 -- Company     : usafa
 --
 -------------------------------------------------------------------------------
@@ -16,6 +16,8 @@
 --
 -- Description : 
 --
+-- Documentation: C3C El-Saawy helped me with the Address Selection multiplexer
+-- and with the AeqZero and AlessZero signals
 -------------------------------------------------------------------------------
 
 --{{ Section below this comment is automatically maintained
@@ -54,25 +56,14 @@ end Datapath;
 architecture Datapath of Datapath is
 
 	-- Copy the declaration for your ALU here
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-
-
+	COMPONENT ALU
+	PORT(
+		OpSel : IN std_logic_vector(2 downto 0);
+		Data : IN std_logic_vector(3 downto 0);
+		Accumulator : IN std_logic_vector(3 downto 0);          
+		Result : OUT std_logic_vector(3 downto 0)
+		);
+	END COMPONENT;
 	
 	-- Internal signals for connecting the Datapath registers.  Note the differing length 
 	-- based on content
@@ -94,8 +85,8 @@ begin
 		  	PC <= "00000000";
 	  elsif (Clock'event and Clock='1') then 
 		  if (PCLd = '1' and JmpSel = '1') then
-		        PC(7 downto 4) <= MARHi;   
-			PC(3 downto 0) <= MARLo;
+		      PC(7 downto 4) <= MARHi;   
+				PC(3 downto 0) <= MARLo;
 		  elsif (PCLd = '1' and JmpSel = '0') then
 			  PC <= unsigned(PC) + 1;
 		  end if;
@@ -106,95 +97,92 @@ begin
 	-- asynchronous Reset_L line and clocked data input.  Which control signal also determines
 	-- when data is loaded?  What are the inputs and outputs from the register?
 	
-	process(          )
+	process(Clock, Reset_L)
   	begin				 
-	  
-
-
-
-
-
-
-  	end process;   
-	  	
+		if(Reset_L = '0') then
+			IR <= "0000";
+		elsif (Clock'event and Clock='1') then
+			if (IRLd = '1') then
+				IR <= Data;
+		  end if;
+		end if;		
+  	end process;
+  	
 	  	
 	-- Complete the code to implement an Memory Address Register (Hi).  Use a standard register with an 
 	-- asynchronous Reset_L line and clocked data input.  Which control signal also determines
 	-- when data is loaded?	 What are the inputs and outputs from the register?
 
-	process(          )
+	process(Clock, Reset_L)
   	begin				 
-	  
-
-
-
-
-
-
-  	end process;       
+		if(Reset_L = '0') then
+			MARHi <= "0000";
+		elsif (Clock'event and Clock='1') then
+			if (MARHiLd = '1') then
+		       MARHi <= Data;
+		  end if;
+		end if;		
+  	end process;    
 
 	-- Complete the code to implement an Memory Address Register (Lo).  Use a standard register with an 
 	-- asynchronous Reset_L line and clocked data input.  Which control signal also determines
 	-- when data is loaded?	 What are the inputs and outputs from the register?
 	
-	process(          )
+	process(Clock, Reset_L)
   	begin				 
+		if(Reset_L = '0') then
+			MarLo <= "0000";
+		elsif (Clock'event and Clock='1') then
+			if (MARLoLd = '1') then
+		       MarLo <= Data;
+		  end if;
+		end if;
+	end process;
 	  
-
-
-
-
-
-
-  	end process;   
-	  
-	-- Complete the code to implement an Address Selector (multiplexer) which determines between two data sources
-	-- (which two?) based on the AddrSel line. Be careful - the process sensitivity list has 4 signals!
+	-- Complete the code to implement an Address Selector (multiplexer) which determines between two data sources,
+	-- PC and MAR, based on the AddrSel line. Be careful - the process sensitivity list has 4 signals!
 	
-	process(          )
+	process(MARHi, MARLo, PC, AddrSel)
   	begin				 
-	  
-
-
-
-
-
-
+		if (AddrSel = '0') then
+		      Addr <= PC;
+		else
+			Addr(7 downto 4) <= MARHi;
+			Addr(3 downto 0) <= MARLo;
+		end if;		 
   	end process;   
-		
-	
 	  		
 	-- Instantiate and connect the ALU  which was written in a separate file
 	
-
-
-
-
+	Inst_ALU: ALU PORT MAP(
+		OpSel => OpSel,
+		Data => Data,
+		Accumulator => Accumulator,
+		Result => ALU_Result
+	);
 	
 	-- Complete the code to implement an Accumulator.  Use a standard register with an 
 	-- asynchronous Reset_L line and clocked data input.  Which control signal also determines
 	-- when data is loaded?	   What are the inputs and outputs from the register?
-	process(          )
+	process(Clock, Reset_L, AccLd)
   	begin				 
-	  
-
-
-
-
-
-
+	  if(Reset_L = '0') then
+			Accumulator <= "0000";
+		elsif (Clock'event and Clock='1') then
+			if (AccLd = '1') then
+		       Accumulator <= ALU_Result;
+			end if;
+		end if;
   	end process;     
 	  
 	-- Complete the code to implement a tri-state buffer which places the Accumulator data on the 
 	-- Data Bus when enabled and goes to High Z the rest of the time	
 	-- Note: use "Z" just like a bit.  If you want to set a signal to  High Z, you'd say mySignal <= 'Z';
-	Data <=          when             else         ;
+	Data <= Accumulator when EnAccBuffer = '1' else "ZZZZ"; --not sure on else statement
 	  
   	-- Complete the code to implement the Datapath status signals --
-   	AlessZero <=   			--Uses MSB as a sign bit
-  	AeqZero <= 
-
-			   
+   	AlessZero <= Accumulator(3);  --Uses MSB as a sign bit, tests whether negative
+		AeqZero <= '0' when Accumulator = "0000" else '1';  
 			   
 end Datapath;
 

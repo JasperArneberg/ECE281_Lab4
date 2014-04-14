@@ -14,9 +14,12 @@
 --
 -------------------------------------------------------------------------------
 --
--- Description : 
+-- Description : This module comprises the Arithmetic Logic Unit of the PRISM 
+-- computer.
 --
--- Documentation: Original structure of program provided by course
+-- Documentation: 
+-- Original structure of program provided by course.
+-- Switch case statements: http://www.ics.uci.edu/~jmoorkan/vhdlref/cases.html
 -------------------------------------------------------------------------------
 
 --{{ Section below this comment is automatically maintained
@@ -60,7 +63,7 @@ begin
 aluswitch: process (Accumulator, Data, OpSel)
         begin 
 		-- enter your if/then/else or case statements here
-			case Opsel is 
+			case OpSel is 
 				when "000" => --AND
 					Result <= Accumulator and Data;
 				when "001" => --NEG (2's complement)
