@@ -49,8 +49,21 @@ In this format, I verified that the ALU worked correctly for all the OpSel value
 
 ##Datapath
 
-
 ####Testing and Debugging
+
+Here is a bad line of code. I didn't know what to put for the else statement at first.
+
+### Bad Code
+```
+Data <= Accumulator when EnAccBuffer = '1' else PC (3 downto 0);
+```
+
+Here is a good line of code. The else statement just puts the Data bus to a high impedance because we don't really care what the value is.
+
+#### Good Code
+```
+Data <= Accumulator when EnAccBuffer = '1' else "ZZZZ";
+```
 
 
 ##Reverse Engineering
@@ -103,3 +116,4 @@ Near 225 nsec, a JN command is executed. Because the accumulator contains a valu
 
 ## Documentation
 Switch case statements: http://www.ics.uci.edu/~jmoorkan/vhdlref/cases.html
+I asked C3C El-Saawy some questions in class every now and again for the first part of the lab.
