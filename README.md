@@ -93,6 +93,7 @@ Here is the list of instructions found by looking at the value of the Instructio
 | 625 | 9 | JMP |
 
 In the PRISM simulator, here's what it looks like:
+
 ![alt text](https://github.com/JasperArneberg/ECE281_Lab4/blob/master/prism_sim.png?raw=true "PRISM Simulation")
 
 ####Analyzing 50 nsec to 100 nsec
@@ -104,6 +105,7 @@ Starting at 55 nsec, the command for ROR is present in the IR. The value of B in
 
 ####Analyzing 225 nsec
 The waveform near 225 nsec can be seen below:
+
 ![alt text](https://github.com/JasperArneberg/ECE281_Lab4/blob/master/225_nsec.png?raw=true "225 nsec")
 
 Near 225 nsec, a JN command is executed. Because the accumulator contains a value of D, this is considered to be negative in Two's Complement. For this reason, the program next jumps to the instruction located at the specified address. The next command is another ROR, which turns the accumulator value from D (1101) to E (1110).
