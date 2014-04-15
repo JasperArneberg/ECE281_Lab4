@@ -45,11 +45,19 @@ The main problem was that the temporary signal was being assigned its new values
 | 001 | 0001 | 0011 | 1101 |
 | 001 | 0010 | 0100 | 1100 |
 | 001 | 0010 | 0101 | 1011 |
-In this format, I verified that the ALU worked correctly.
+In this format, I verified that the ALU worked correctly for all the OpSel values.
 
-##Datapath Sim
+##Datapath
+
+
+####Testing and Debugging
+
+
+##Reverse Engineering
 
 ####List of Instructions
+Here is the list of instructions found by looking at the value of the Instruction Register.
+
 | Time (nsec) | OpCode (from IR) | Pneumonic |
 | 0 | 0 | NOP |
 | 15 | 7 | LDAI |
@@ -70,12 +78,21 @@ In this format, I verified that the ALU worked correctly.
 | 575 | b | JN |
 | 625 | 9 | JMP |
 
+In the PRISM simulator, here's what it looks like:
+![alt text](https://github.com/JasperArneberg/ECE281_Lab4/blob/master/prism_sim.png?raw=true "PRISM Simulation")
 
 ####Analyzing 50 nsec to 100 nsec
+The waveform from 50 to 100 nsec can be seen below:
 
+![alt text](https://github.com/JasperArneberg/ECE281_Lab4/blob/master/50_to_100_nsec.png?raw=true "50 to 100 nsec")
+
+Starting at 55 nsec, the command for ROR is present in the IR. The value of B in the accumulator is then rotated right. The result is then D, which can be seen in the accumulator. The next command is OUT. The value in the accumulator is put onto the data bus and then transferred to a port.
 
 ####Analyzing 225 nsec
+The waveform near 225 nsec can be seen below:
+![alt text](https://github.com/JasperArneberg/ECE281_Lab4/blob/master/225_nsec.png?raw=true "225 nsec")
 
+Near 225 nsec, a JN command is executed. Because the accumulator contains a value of D, this is considered to be negative in Two's Complement. For this reason, the program next jumps to the instruction located at the specified address. The next command is another ROR, which turns the accumulator value from D (1101) to E (1110).
 
 ##Demonstrations
 | Functionality | Witness | Date | Time |
