@@ -53,7 +53,7 @@ In this format, I verified that the ALU worked correctly for all the OpSel value
 
 Here is a bad line of code. I didn't know what to put for the else statement at first.
 
-### Bad Code
+#### Bad Code
 ```
 Data <= Accumulator when EnAccBuffer = '1' else PC (3 downto 0);
 ```
