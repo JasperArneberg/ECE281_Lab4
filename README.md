@@ -72,6 +72,7 @@ Data <= Accumulator when EnAccBuffer = '1' else "ZZZZ";
 Here is the list of instructions found by looking at the value of the Instruction Register.
 
 | Time (nsec) | OpCode (from IR) | Pneumonic |
+| :--: | :--: | :--: |
 | 0 | 0 | NOP |
 | 15 | 7 | LDAI |
 | 55 | 3 | ROR |
